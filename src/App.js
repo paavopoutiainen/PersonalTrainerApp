@@ -105,7 +105,7 @@ function App() {
     return (
       <Customers customers={customers} addCustomer={addCustomer} 
       deleteCustomer={deleteCustomer} editCustomer ={editCustomer} 
-      addTraining={addTraining}></Customers>
+      addTraining={addTraining} deleteTraining={deleteTraining}></Customers>
     )
   }  
   function trainingsRender(){

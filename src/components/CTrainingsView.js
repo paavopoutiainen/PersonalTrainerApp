@@ -1,6 +1,88 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import AddTraining from "./AddTraining"
+import ReactTable from 'react-table'
 
-const CTrainingsView = ({link, addTraining}) => {
+
+const useStyles = makeStyles(theme => ({
+    appBar: {
+      position: 'relative',
+    },
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1,
+    },
+  }));
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+  
+
+const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
+    const customersTrainingsUrl = cRow.links[2].href
+    const classes = useStyles()
+    const [open, setOpen] = useState(false)
+    const [cTrainingData, setTrainingData] = useState([])
+
+    //fetchData Of the customer
+    function fetchCustomerTrainings(){
+        fetch(customersTrainingsUrl)
+        .then(res => res.json())
+        .then(res => setTrainingData(res))
+    }
+   
+
+    //After render
+    useEffect(()=>{
+        
+      }
+        , [])
+
+    const columns = [{
+        Header: 'Date',
+        accessor: 'date' // String-based value accessors!
+      }, {
+        Header: 'Activity',
+        accessor: 'activity'
+      }, 
+      {
+        Header: 'Duration',
+        accessor: "duration"
+      },
+      {
+        accessor: "",
+        filterable: false,
+        sortable: false,
+        width: 75,
+        Cell: row => <Button color="secondary" size ="small" 
+        onClick={() => deleteTraining(row.original.links[1].href)}>Delete</Button>
+    }
+    ]
+
+    
+    const handleClickOpen = () => {
+        setOpen(true);
+        console.log("linkki", customersTrainingsUrl)
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
+
+
     return (
     <div>
             
@@ -16,18 +98,10 @@ const CTrainingsView = ({link, addTraining}) => {
             <Typography variant="h6" className={classes.title}>
               Customers trainings
             </Typography>
-            <AddTraining link={link} addTraining={addTraining}></AddTraining>
+            <AddTraining link={cData.links[1].href} addTraining={addTraining}></AddTraining>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-          </ListItem>
-        </List>
+        <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
       </Dialog>
     </div>
             
