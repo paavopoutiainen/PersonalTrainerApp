@@ -71,9 +71,9 @@ const Customers = ({customers, deleteCustomer, editCustomer, addCustomer, addTra
   
   accessor: "",
   filterable: false,
-  sortable: false,
+  sortable: fals,
   width: 125,
-  Cell: row => <AddTraining link={row.original.links[1].href} addTraining={addTraining}></AddTraining>
+  Cell: row => <link={row.original.links[1].href} addTraining={addTraining}></AddTraining>
     
 }
 ]
