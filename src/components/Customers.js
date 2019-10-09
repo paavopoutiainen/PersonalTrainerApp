@@ -10,6 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddTraining from "./AddTraining"
+import CTrainingsView from "./CTrainingsView"
 
 
 
@@ -73,7 +74,7 @@ const Customers = ({customers, deleteCustomer, editCustomer, addCustomer, addTra
   filterable: false,
   sortable: false,
   width: 125,
-  Cell: row => <AddTraining link={row.original.links[1].href} addTraining={addTraining}></AddTraining>
+  Cell: row => <CTrainingsView link={row.original.links[1].href} addTraining={addTraining}></CTrainingsView>
     
 }
 ]
