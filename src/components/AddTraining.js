@@ -30,7 +30,7 @@ const AddTraining = ({linkOfTheCustomer, addTraining}) => {
 
     return (
         <div>
-            <Button size = "small" color="primary" onClick={handleClickOpen}>
+        <Button size = "small" color="default" onClick={handleClickOpen}>
         Add Training
         </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
