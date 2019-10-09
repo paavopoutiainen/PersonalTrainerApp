@@ -41,15 +41,15 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
     function fetchCustomerTrainings(){
         fetch(customersTrainingsUrl)
         .then(res => res.json())
-        .then(res => setTrainingData(res))
+        .then(res => setTrainingData(res.content))
     }
    
 
     //After render
     useEffect(()=>{
-        
+        fetchCustomerTrainings()
       }
-        , [])
+        )
 
     const columns = [{
         Header: 'Date',
@@ -84,9 +84,7 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
 
 
     return (
-        <div>
-            sdfsdfsadf
-        </div>
+        
     <div>
             
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -101,7 +99,7 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
             <Typography variant="h6" className={classes.title}>
               Customers trainings
             </Typography>
-            <AddTraining link={cData.links[1].href} addTraining={addTraining}></AddTraining>
+            <AddTraining linkOfTheCustomer={cRow.links[1].href} addTraining={addTraining}></AddTraining>
           </Toolbar>
         </AppBar>
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
