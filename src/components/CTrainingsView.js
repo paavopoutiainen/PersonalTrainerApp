@@ -48,7 +48,7 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
     //After render
     useEffect(()=>{
         fetchCustomerTrainings()
-      }
+      }, []
         )
 
     const columns = [{
