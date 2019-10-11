@@ -9,11 +9,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import moment from 'moment'
 
 
 const Trainings = ({trainings, deleteTraining}) => {
   const [open, setOpen] = useState(false)
   const [trainingsState, setTraining] = useState({date: "", duration:"", activity:""})
+  
+
+  //trainings = trainings.map(x => console.log('x', x))
+  console.log("trainings", trainings)
 
   const baseUrlForTrainings = "https://customerrest.herokuapp.com/api/trainings"
 

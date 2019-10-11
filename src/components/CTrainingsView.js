@@ -47,7 +47,9 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
 
     //After render
     useEffect(()=>{
+      let isSubscribed = true;
         fetchCustomerTrainings()
+        return () => (isSubscribed = false);
       }, []
         )
 

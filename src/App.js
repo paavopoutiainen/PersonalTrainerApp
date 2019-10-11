@@ -33,6 +33,7 @@ function App() {
   function fetchTrainings(){
     fetch("https://customerrest.herokuapp.com/api/trainings")
     .then(res => res.json())
+    
     .then(res => setTrainings(res.content))
   }
   //After the first render
