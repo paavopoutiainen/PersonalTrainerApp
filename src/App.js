@@ -5,16 +5,12 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import About from "./components/About"
 import Customers from "./components/Customers"
 import Trainings from "./components/Trainings"
-import Calendar from "./components/Calendar"
+import CalendarPage from "./components/CalendarPage"
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import { log } from 'util';
 import Snackbar from '@material-ui/core/Snackbar';
+import moment from 'moment'
 
 function App() {
 
@@ -29,12 +25,19 @@ function App() {
     .then(res => res.json())
     .then(res => setCustomers(res.content))
   }
-  //fetching the trainingsData
+  //fetching the trainingsData, and changing the date format using moment.js
   function fetchTrainings(){
     fetch("https://customerrest.herokuapp.com/api/trainings")
     .then(res => res.json())
+    .then(res => {
+      let content = res.content.map(t => {
+        var date = moment(t.date)
+        return {...t, date: date.format("LLLL")} 
+      })
+      return setTrainings(content)
+ 
+    })
     
-    .then(res => setTrainings(res.content))
   }
   //After the first render
   useEffect(()=>{
@@ -90,14 +93,16 @@ function App() {
   }
 
   //add training
-  function addTraining(training){
+  function addTraining(customerName, training){
+    console.log("harkka", training)
+    
     const urlForTrainings = "https://customerrest.herokuapp.com/api/trainings"
     fetch(urlForTrainings, {method:"POST", headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(training)})
     .then(res => fetchTrainings())
-    .then(res => setMessage("Added training for customer"))
+    .then(res => setMessage(`Added training for customer ${customerName}`))
     .then(res => setOpen(true))
   }
 
@@ -106,13 +111,17 @@ function App() {
     return (
       <Customers customers={customers} addCustomer={addCustomer} 
       deleteCustomer={deleteCustomer} editCustomer ={editCustomer} 
-      addTraining={addTraining} deleteTraining={deleteTraining}></Customers>
+      addTraining={addTraining} deleteTraining={deleteTraining} setOpenSnack={setOpen}></Customers>
     )
   }  
   function trainingsRender(){
     return (
       <Trainings trainings = {trainings} deleteTraining ={deleteTraining}></Trainings>
     )
+  }
+
+  function calendarRender(){
+    return <CalendarPage trainings={trainings}></CalendarPage>
   }
 
 //Closing the snackbar 
@@ -145,7 +154,7 @@ function App() {
             <Route exact path="/" component={About}></Route>
             <Route exact path="/customers" render={customerRender}></Route>
             <Route exact path="/trainings" render={trainingsRender}></Route>
-            <Route exact path="/calendar" component={Calendar}></Route>
+            <Route exact path="/calendar" render={calendarRender}></Route>
           </Switch>
      
       

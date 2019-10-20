@@ -1,19 +1,14 @@
 import React, {useState} from 'react';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import EditCustomer from "./EditCustomer"
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
+
 import moment from 'moment'
 
 
 const Trainings = ({trainings, deleteTraining}) => {
-  const [open, setOpen] = useState(false)
+ 
   const [trainingsState, setTraining] = useState({date: "", duration:"", activity:""})
   
 

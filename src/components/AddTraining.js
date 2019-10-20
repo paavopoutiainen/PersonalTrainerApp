@@ -7,14 +7,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const AddTraining = ({linkOfTheCustomer, addTraining}) => {
+const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
 
     const[open, setOpen] = useState(false)
-    const [training, setTraining] = useState({date:"", activity:"", duration :"", customer:linkOfTheCustomer})
+    const [training, setTraining] = useState({date:"", activity:"", duration :"", customer:dataOfCustomer.links[1].href})
+
+
+    let nameOfTheCustomer = `${dataOfCustomer.firstname} ${dataOfCustomer.lastname}`
 
     function handleClickOpen(){
+      
         setOpen(true)
-        console.log(linkOfTheCustomer)
+        setOpenSnack(false)
+        console.log("addtrainigissä", dataOfCustomer)
     }
     function handleClose(){
         setOpen(false)
@@ -24,7 +29,7 @@ const AddTraining = ({linkOfTheCustomer, addTraining}) => {
         setTraining({...training, [e.target.name]: e.target.value}) 
     }
     function handleCloseSave(){
-        addTraining(training)
+        addTraining(nameOfTheCustomer, training)
         setOpen(false)
     }
 
@@ -41,6 +46,7 @@ const AddTraining = ({linkOfTheCustomer, addTraining}) => {
           </DialogContentText>
           <TextField
             autoFocus
+            type="date"
             placeholder="Use form: year-month-day"
             margin="dense"
             name="date"

@@ -14,7 +14,7 @@ import CTrainingsView from "./CTrainingsView"
 
 
 
-const Customers = ({customers, deleteCustomer, editCustomer, addCustomer, addTraining, deleteTraining}) => {
+const Customers = ({setOpenSnack, customers, deleteCustomer, editCustomer, addCustomer, addTraining, deleteTraining}) => {
 
   const [open, setOpen] = useState(false)
   const [customerState, setCustomer] = useState({firstname: "", lastname:"", streetaddress:"", postcode:"",
@@ -74,7 +74,16 @@ const Customers = ({customers, deleteCustomer, editCustomer, addCustomer, addTra
   filterable: false,
   sortable: false,
   width: 125,
-  Cell: row => <AddTraining linkOfTheCustomer={row} addTraining={addTraining}></AddTraining>
+  Cell: row => <AddTraining setOpenSnack={setOpenSnack} dataOfCustomer={row.original} addTraining={addTraining}></AddTraining>
+    
+},
+{
+  
+  accessor: "",
+  filterable: false,
+  sortable: false,
+  width: 125,
+  Cell: row => <CTrainingsView cRow={row.original} addTraining={addTraining} deleteTraining={deleteTraining}></CTrainingsView>
     
 }
 ]

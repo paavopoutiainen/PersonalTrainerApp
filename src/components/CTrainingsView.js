@@ -2,18 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import AddTraining from "./AddTraining"
 import ReactTable from 'react-table'
+import moment from 'moment'
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   });
   
 
-const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
+const CTrainingsView = ({cRow, deleteTraining}) => {
     const customersTrainingsUrl = cRow.links[2].href
     const classes = useStyles()
     const [open, setOpen] = useState(false)
@@ -39,16 +35,28 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
 
     //fetchData Of the customer
     function fetchCustomerTrainings(){
-        fetch(customersTrainingsUrl)
+        return fetch(customersTrainingsUrl)
         .then(res => res.json())
-        .then(res => setTrainingData(res.content))
+        .then(res => {
+          let content = res.content.map(t => {
+            var date = moment(t.date)
+            return {...t, date: date.format("LLLL")} 
+          })
+          return content
+        })
     }
-   
-
+  
     //After render
     useEffect(()=>{
       let isSubscribed = true;
-        fetchCustomerTrainings()
+      if(isSubscribed){
+        fetchCustomerTrainings().then(customers => {
+          if(isSubscribed){
+            setTrainingData(customers)
+          }
+        })
+      }
+        
         return () => (isSubscribed = false);
       }, []
         )
@@ -101,7 +109,7 @@ const CTrainingsView = ({cRow, addTraining, deleteTraining}) => {
             <Typography variant="h6" className={classes.title}>
               Customers trainings
             </Typography>
-            <AddTraining linkOfTheCustomer={cRow.links[1].href} addTraining={addTraining}></AddTraining>
+            
           </Toolbar>
         </AppBar>
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
