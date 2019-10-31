@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
 const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
 
     const[open, setOpen] = useState(false)
@@ -26,10 +27,12 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
     }
 
     function handleChange(e){
+    
         setTraining({...training, [e.target.name]: e.target.value}) 
     }
     function handleCloseSave(){
-        addTraining(nameOfTheCustomer, training)
+        console.log("date format", training.date)
+        addTraining(nameOfTheCustomer, {...training, date:`${training.date}:00`})
         setOpen(false)
     }
 
@@ -46,15 +49,16 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
           </DialogContentText>
           <TextField
             autoFocus
-            type="date"
-            placeholder="Use form: year-month-day"
+            type="datetime-local"
             margin="dense"
             name="date"
-            label="Date"
+            label="Date (Give all the parameters)"
             fullWidth
             onChange = {e => handleChange(e)}
             value = {training.date}
+            
           />
+          
           <TextField
            
             margin="dense"

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-
 import './App.css';
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import About from "./components/About"
@@ -11,8 +10,21 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import moment from 'moment'
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
+
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: 10,
+    backgroundColor: "#b3f3e6"
+  },
+}));
+
 
 function App() {
+  const classes = useStyles();
 
   const [customers, setCustomers] = useState([])
   const [trainings, setTrainings] = useState([])
@@ -131,27 +143,28 @@ function App() {
 
   return (
     <div>
+      <Paper className="paper">
       <BrowserRouter>
-      <AppBar position="static">
+      <AppBar class="appBar" position="static">
       
       
         <Toolbar>
-          <Typography variant="h6">
+          <Typography variant="h6" styles={{marginLeft: 0}}>
             Paavo's PT Company
           </Typography>
         </Toolbar>
       
         <div>
-          <Link style={{color:"white"}} to="/">About</Link>
-          <Link style={{color:"white"}} to="/customers" >Customers</Link>
-          <Link style={{color:"white"}} to="/trainings">Trainings</Link>
-          <Link style={{color:"white"}} to="/calendar">Calendar</Link>
+          
+          <Link class="links" to="/customers" >Customers</Link>
+          <Link class="links" to="/trainings">Trainings</Link>
+          <Link class="links" to="/calendar">Calendar</Link>
         </div>
           
       </AppBar>
       
           <Switch>
-            <Route exact path="/" component={About}></Route>
+            <Route exact path="/" render={customerRender}></Route>
             <Route exact path="/customers" render={customerRender}></Route>
             <Route exact path="/trainings" render={trainingsRender}></Route>
             <Route exact path="/calendar" render={calendarRender}></Route>
@@ -161,7 +174,7 @@ function App() {
       
       </BrowserRouter>
       <Snackbar open = {open} autoHideDuration={3000} onClose= {handleClose} message={message}/>
-
+      </Paper>
     </div>
   );
 }

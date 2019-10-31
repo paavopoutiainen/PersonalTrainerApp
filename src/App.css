@@ -18,5 +18,21 @@
 }
 
 .App-link {
-  color: #09d3ac;
+  color: #b3f3e6;
+}
+
+.appBar{
+  padding: 5px;
+  margin-top: 0px;
+  background-color: rgb(85, 147, 241);
+}
+
+.links{
+  margin: 5px;
+  color:white;
+}
+.paper{
+ 
+  height: 100%;
+  padding: 10px;
 }

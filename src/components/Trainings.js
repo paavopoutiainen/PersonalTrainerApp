@@ -4,8 +4,6 @@ import 'react-table/react-table.css'
 import Button from '@material-ui/core/Button';
 
 
-import moment from 'moment'
-
 
 const Trainings = ({trainings, deleteTraining}) => {
  

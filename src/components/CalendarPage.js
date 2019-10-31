@@ -7,17 +7,7 @@ const localizer = momentLocalizer(moment)
 
 const CalendarPage = ({trainings}) => {
 
-   //start, end ja title
-    console.log("trainings in calendar",  trainings)
-    
-    /*let events= [
-        {
-          start: new Date(),
-          end: new Date(moment().add(1, "days")),
-          title: "Some title"
-        }
-      ]*/
-     
+   
     let events = trainings.map(t => {
         let date = new Date(t.date)
         
@@ -32,8 +22,7 @@ const CalendarPage = ({trainings}) => {
 
 
     return (
-        <div>
-            <h1>calendar </h1>
+            
             <Calendar
                 localizer={localizer}
                 events={events}
@@ -41,7 +30,7 @@ const CalendarPage = ({trainings}) => {
                 endAccessor="end"
             />
            
-        </div>
+ 
     );
 };
 

@@ -15,6 +15,7 @@ import CTrainingsView from "./CTrainingsView"
 
 
 const Customers = ({setOpenSnack, customers, deleteCustomer, editCustomer, addCustomer, addTraining, deleteTraining}) => {
+  
 
   const [open, setOpen] = useState(false)
   const [customerState, setCustomer] = useState({firstname: "", lastname:"", streetaddress:"", postcode:"",
@@ -93,7 +94,7 @@ function handleClickOpen(){
 }
 //close the form
 function handleClose(){
-
+  setOpen(false)
 }
 //save textfield inputs into state
 function handleChange(e){
@@ -111,7 +112,7 @@ function handleCloseSave(){
     return (
       <div>
       <Button size = "small" color="primary" onClick={handleClickOpen}>
-        Add
+        Add Customer
         </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add customer</DialogTitle>
@@ -198,7 +199,7 @@ function handleCloseSave(){
         columns={columns}
         filterable={true}
       />
-      
+     
       </div>
       
   
