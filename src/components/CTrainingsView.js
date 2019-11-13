@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   
 
 const CTrainingsView = ({cRow, deleteTraining}) => {
-    const customersTrainingsUrl = cRow.links[2].href
+    const customersTrainingsUrl = cRow
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [cTrainingData, setTrainingData] = useState([])
@@ -48,16 +48,16 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
   
     //After render
     useEffect(()=>{
-      let isSubscribed = true;
-      if(isSubscribed){
+      //let isSubscribed = true;
+      //if(isSubscribed){
         fetchCustomerTrainings().then(customers => {
-          if(isSubscribed){
+          //if(isSubscribed){
             setTrainingData(customers)
-          }
+          //}
         })
-      }
+      //}
         
-        return () => (isSubscribed = false);
+        //return () => (isSubscribed = false);
       }, []
         )
 

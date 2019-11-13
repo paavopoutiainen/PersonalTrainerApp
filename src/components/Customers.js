@@ -84,7 +84,7 @@ const Customers = ({setOpenSnack, customers, deleteCustomer, editCustomer, addCu
   filterable: false,
   sortable: false,
   width: 125,
-  Cell: row => <CTrainingsView cRow={row.original} addTraining={addTraining} deleteTraining={deleteTraining}></CTrainingsView>
+  Cell: row => <CTrainingsView cRow={row.original.links[2].href} addTraining={addTraining} deleteTraining={deleteTraining}></CTrainingsView>
     
 }
 ]
