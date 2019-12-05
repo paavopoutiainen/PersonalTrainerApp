@@ -32,6 +32,7 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [cTrainingData, setTrainingData] = useState([])
+    const [booleanForFetch, setBoolean] = useState(false)
 
     //fetchData Of the customer
     function fetchCustomerTrainings(){
@@ -46,22 +47,19 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
             return {...t, date: date.format("LLLL")} 
           })
           return content
+        }).then(trainings => {
+          setTrainingData(trainings)
         })
     }
+
+    if(booleanForFetch){
+      fetchCustomerTrainings()
+      setBoolean(false)
+    }
     //After render
-    useEffect(()=>{
-      //let isSubscribed = true;
-      //if(isSubscribed){
-        fetchCustomerTrainings().then(trainings => {
-          //if(isSubscribed){
-            setTrainingData(trainings)
-          //}
-        })
-      //}
-        
-        //return () => (isSubscribed = false);
-      }, []
-        )
+    /*useEffect(()=>{
+        fetchCustomerTrainings()
+    }, [] )*/
 
     const columns = [{
         Header: 'Date',
@@ -87,6 +85,7 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
     
     const handleClickOpen = () => {
         setOpen(true);
+        setBoolean(true)
         console.log("linkki", customersTrainingsUrl)
       };
     
