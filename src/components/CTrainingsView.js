@@ -36,7 +36,10 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
     //fetchData Of the customer
     function fetchCustomerTrainings(){
         return fetch(customersTrainingsUrl)
-        .then(res => res.json())
+        .then(res =>{
+          console.log("url", customersTrainingsUrl)
+          return res.json()
+        })
         .then(res => {
           let content = res.content.map(t => {
             var date = moment(t.date)
@@ -45,14 +48,13 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
           return content
         })
     }
-  
     //After render
     useEffect(()=>{
       //let isSubscribed = true;
       //if(isSubscribed){
-        fetchCustomerTrainings().then(customers => {
+        fetchCustomerTrainings().then(trainings => {
           //if(isSubscribed){
-            setTrainingData(customers)
+            setTrainingData(trainings)
           //}
         })
       //}
@@ -109,7 +111,6 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
             <Typography variant="h6" className={classes.title}>
               Customers trainings
             </Typography>
-            
           </Toolbar>
         </AppBar>
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>

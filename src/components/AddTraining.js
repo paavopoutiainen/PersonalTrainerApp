@@ -32,7 +32,7 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
     }
     function handleCloseSave(){
         console.log("date format", training.date)
-        addTraining(nameOfTheCustomer, {...training, date:`${training.date}:00`})
+        addTraining(nameOfTheCustomer, {...training, date:`${training.date}:00.000+02:00`})
         setOpen(false)
     }
 
