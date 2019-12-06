@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import About from "./components/About"
 import Customers from "./components/Customers"
 import Trainings from "./components/Trainings"
 import CalendarPage from "./components/CalendarPage"
@@ -11,21 +10,20 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import moment from 'moment'
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+
 import axios from 'axios';
 
 
-const useStyles = makeStyles(theme => ({
+/*const useStyles = makeStyles(theme => ({
   root: {
     padding: 10,
     backgroundColor: "#b3f3e6"
   },
-}));
+}));*/
 
 
 function App() {
-  const classes = useStyles();
+  //const classes = useStyles();
 
   const [customers, setCustomers] = useState([])
   const [trainings, setTrainings] = useState([])

@@ -13,14 +13,11 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
     const[open, setOpen] = useState(false)
     const [training, setTraining] = useState({date:"", activity:"", duration :"", customer:dataOfCustomer.links[1].href})
 
-
     let nameOfTheCustomer = `${dataOfCustomer.firstname} ${dataOfCustomer.lastname}`
 
     function handleClickOpen(){
-      
         setOpen(true)
         setOpenSnack(false)
-        console.log("addtrainigissä", dataOfCustomer)
     }
     function handleClose(){
         setOpen(false)
@@ -31,7 +28,6 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
         setTraining({...training, [e.target.name]: e.target.value}) 
     }
     function handleCloseSave(){
-        console.log("date format", training.date)
         addTraining(nameOfTheCustomer, {...training, date:`${training.date}:00.000+02:00`})
         setOpen(false)
     }
@@ -77,10 +73,6 @@ const AddTraining = ({setOpenSnack, dataOfCustomer, addTraining}) => {
            onChange = {e => handleChange(e)}
            value = {training.duration}
          />
-        
-         
-          
-         
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

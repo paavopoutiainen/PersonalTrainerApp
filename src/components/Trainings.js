@@ -38,7 +38,7 @@ const Trainings = ({getTrainings, deleteTraining}) => {
     return () => {
      getTrainings()
     }
-  }, [])
+  })
 
   const handleDeleteClick = async (link) => {
     await deleteTraining(link, true)

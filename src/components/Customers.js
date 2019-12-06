@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import EditCustomer from "./EditCustomer"
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import AddTraining from "./AddTraining"
 import AddCustomer from "./AddCustomer"

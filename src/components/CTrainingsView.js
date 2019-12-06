@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,7 +45,6 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
       try{
         const response = await axios.get(customersTrainingsUrl)
         const data = response.data
-        console.log(data)
         const filtered = data.content.filter(t => t.date !== undefined)
         const content = filtered.map(t => {
             var date =  moment(t.date)
@@ -99,12 +98,11 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     const handleClickOpen = () => {
         setOpen(true);
         setBoolean(true)
-        console.log("linkki", customersTrainingsUrl)
       };
     
       const handleCloseDialog = async () => {
-        await getTrainings()
         setOpen(false);
+        await getTrainings()
       };
 
       const handleClose = () => {
@@ -122,12 +120,12 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
       <Dialog fullScreen open={open} onClose={handleCloseDialog} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleCloseDialog} aria-label="close">
-              <CloseIcon />
-            </IconButton>
             <Typography variant="h6" className={classes.title}>
               Customers trainings
             </Typography>
+            <IconButton edge="start" color="inherit" onClick={handleCloseDialog} aria-label="close">
+              <CloseIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
