@@ -11,6 +11,7 @@ import Slide from '@material-ui/core/Slide';
 import ReactTable from 'react-table'
 import moment from 'moment'
 import axios from "axios"
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,6 +35,9 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     const [open, setOpen] = useState(false)
     const [cTrainingData, setTrainingData] = useState([])
     const [booleanForFetch, setBoolean] = useState(false)
+    //for snackbar
+    const [message, setMessage] = useState("")
+    const [openSnack, setOpenSnack] = useState(false)
 
     
     //fetch customer data
@@ -53,7 +57,7 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
       }
     }
       
-
+    //to fetch only when the dialog is clicked open("trainings" button)
     if(booleanForFetch){
       fetchCustomerTrainings()
       setBoolean(false)
@@ -81,8 +85,16 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     }
     ]
     const handleDeleteClick = async (link) => {
-      await deleteTraining(link, false)
-      fetchCustomerTrainings()
+      try{
+        await deleteTraining(link, false)
+        fetchCustomerTrainings()
+        setMessage("Training deleted")
+        setOpenSnack(true)
+      }catch(exception) {
+        console.error(exception)
+        setMessage("wasn't able to delete the training")
+        setOpenSnack(true)
+      }
     }
     const handleClickOpen = () => {
         setOpen(true);
@@ -90,10 +102,14 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
         console.log("linkki", customersTrainingsUrl)
       };
     
-      const handleClose = async () => {
+      const handleCloseDialog = async () => {
         await getTrainings()
         setOpen(false);
       };
+
+      const handleClose = () => {
+        setOpenSnack(false)
+      }
 
 
     return (
@@ -103,10 +119,10 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Trainings
       </Button>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullScreen open={open} onClose={handleCloseDialog} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+            <IconButton edge="start" color="inherit" onClick={handleCloseDialog} aria-label="close">
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
@@ -116,6 +132,9 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
         </AppBar>
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
       </Dialog>
+      <Snackbar open = {openSnack} autoHideDuration={3000} onClose= {handleClose} message={message}/>
+
+
     </div>
   );
 };
