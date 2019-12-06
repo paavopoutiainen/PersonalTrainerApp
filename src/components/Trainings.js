@@ -5,8 +5,6 @@ import Button from '@material-ui/core/Button';
 import axios from "axios"
 import moment from "moment"
 
-
-
 const Trainings = ({getTrainings, deleteTraining}) => {
  
   //const [trainingsState, setTraining] = useState({customer: "", date: "", duration:"", activity:""})
@@ -16,7 +14,6 @@ const Trainings = ({getTrainings, deleteTraining}) => {
   const fetchTrainingsWithCustomerData = async () => {
     try{
       const response = await axios.get("https://customerrest.herokuapp.com/gettrainings")
-      console.log("response", response.data)
       const trainingsArray = response.data.map(t => {
       const date = moment(t.date)
       const customer = t.customer !== null ? `${t.customer.firstname} ${t.customer.lastname}`: null
@@ -42,7 +39,6 @@ const Trainings = ({getTrainings, deleteTraining}) => {
 
   const handleDeleteClick = async (link) => {
     await deleteTraining(link, true)
-    console.log("here?")
     fetchTrainingsWithCustomerData()
   }
   
@@ -76,21 +72,14 @@ const Trainings = ({getTrainings, deleteTraining}) => {
      }>Delete</Button>
 }
 ]
-
-
-    return (
+  return (
       <div>
-      
-      <ReactTable 
-        data={trainings}
-        columns={columns}
-        filterable={true}
-      />
-      
+        <ReactTable 
+          data={trainings}
+          columns={columns}
+          filterable={true}
+        />
       </div>
-      
-  
-     
     );
 }
 
