@@ -117,9 +117,7 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
         <ReactTable data = {cTrainingData} columns = {columns}></ReactTable>
       </Dialog>
     </div>
-            
-        
-    );
+  );
 };
 
 export default CTrainingsView;
