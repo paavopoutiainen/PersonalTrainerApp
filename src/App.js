@@ -85,41 +85,34 @@ function App() {
     }
   }
 
-  /*function deleteCustomer(name, link){
-    console.log("we here", name)
-    if(window.confirm("are you sure?")){
-      fetch(link, {method: "DELETE"})
-      .then(res => fetchCustomers())
-      .then(res => setMessage(`Customer ${name} deleted`))
-      .then(res => setOpen(true))
-    }
-  } */
-
   //edit customer
-  function editCustomer(editedCustomer, link){
-    fetch(link, {method: "PUT", headers: {
-        
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(editedCustomer)})
-    .then(res => console.log("response",res))
-    .then(res => fetchCustomers())
-    .then(res => setMessage("Customer edited"))
-    .then(res => setOpen(true))
-    .catch(err => console.log(err))
+  const editCustomer = async (editedCustomer, link) => {
+    try{
+      await axios.put(link, editedCustomer)
+      await fetchCustomers()
+      setMessage("Customer edited")
+      setOpen(true)
+    } catch(exception) {
+      console.error(exception)
+      setMessage("Wasn't able to edit the customer")
+      setOpen(true)
+    }
+    
   }
-
   //add customer
-  function addCustomer(customer, link, name){
-    fetch(link, {method: "POST", headers: {
-        
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(customer)})
-    .then(res => fetchCustomers())
-    .then(res => setMessage(`New customer ${name} added`))
-    .then(res => setOpen(true))
+const addCustomer = async (customer, link) => {
+  try{
+    const response = await axios.post(link, customer)
+    console.log(response)
+    fetchCustomers()
+    setMessage(`New customer ${response.data.firstname} ${response.data.lastname} added`)
+    setOpen(true)
+  } catch (exception) {
+    console.error(exception)
+    setMessage("Wasn't able to add customer")
+    setOpen(true)
   }
+}
 
   //delete training
   const deleteTraining = async (link, boolean) => {
@@ -154,7 +147,7 @@ function App() {
     }
     
   }
-  
+
   function customerRender(){
     return (
       <Customers getTrainings={fetchTrainings} customers={customers} addCustomer={addCustomer} 

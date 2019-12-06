@@ -103,7 +103,7 @@ function handleChange(e){
 
 //Call addCustomerFunction when save button clicked
 function handleCloseSave(){
-  addCustomer(customerState, baseUrlForCustomers, `${customerState.firstname} ${customerState.lastname}`)
+  addCustomer(customerState, baseUrlForCustomers)
   setOpen(false)
   setCustomer({firstname: "", lastname:"", streetaddress:"", postcode:"",
   city:"", email:"", phone:""})

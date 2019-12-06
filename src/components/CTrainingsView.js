@@ -35,24 +35,24 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     const [cTrainingData, setTrainingData] = useState([])
     const [booleanForFetch, setBoolean] = useState(false)
 
-    /*useEffect(() => {
-      return () => {
-        getTrainings()
-      }
-    }, [])*/
-
+    
     //fetch customer data
     const fetchCustomerTrainings = async () => {
-      const response = await axios.get(customersTrainingsUrl)
-      const data = response.data
-      console.log(data)
-      const filtered = data.content.filter(t => t.date !== undefined)
-      const content = filtered.map(t => {
-        var date =  moment(t.date)
-        return {...t, date: date.format("LLLL") } 
-    })
-    setTrainingData(content)
+      try{
+        const response = await axios.get(customersTrainingsUrl)
+        const data = response.data
+        console.log(data)
+        const filtered = data.content.filter(t => t.date !== undefined)
+        const content = filtered.map(t => {
+            var date =  moment(t.date)
+            return {...t, date: date.format("LLLL") } 
+        })
+        setTrainingData(content)
+      }catch(exception){
+        console.error(exception)
+      }
     }
+      
 
     if(booleanForFetch){
       fetchCustomerTrainings()
@@ -82,7 +82,6 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     ]
     const handleDeleteClick = async (link) => {
       await deleteTraining(link, false)
-      
       fetchCustomerTrainings()
     }
     const handleClickOpen = () => {

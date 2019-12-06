@@ -14,21 +14,26 @@ const Trainings = ({getTrainings, deleteTraining}) => {
 
   //trainings = trainings.map(x => console.log('x', x))
   const fetchTrainingsWithCustomerData = async () => {
-    const response = await axios.get("https://customerrest.herokuapp.com/gettrainings")
-    console.log("response", response.data)
-    const trainingsArray = response.data.map(t => {
+    try{
+      const response = await axios.get("https://customerrest.herokuapp.com/gettrainings")
+      console.log("response", response.data)
+      const trainingsArray = response.data.map(t => {
       const date = moment(t.date)
       const customer = t.customer !== null ? `${t.customer.firstname} ${t.customer.lastname}`: null
       return { ...t, customer: customer, date: date.format("LLLL")}
     })
     setTrainings(trainingsArray)
+    }catch(exception){
+      console.error(exception)
+    }
+    
   }
-//here we fetch the trainings with customers ans set them to the state of this component
+//here we fetch the trainings with customers and set them to the state of this component
   useEffect(() => {
     fetchTrainingsWithCustomerData()
   }, [])
  //this hook is called when the component is removed from the ui
- //here we update the state in App.js since the calendar component is receiving that state as a prop when it is mounted
+ //here we update the training state in App.js since the calendar component is receiving that state as a prop when it is mounted
   useEffect(() => {
     return () => {
      getTrainings()
