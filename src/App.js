@@ -33,23 +33,33 @@ function App() {
   const [message, setMessage] = useState("")
 
   //fetching the customerData
-  function fetchCustomers(){
-    fetch("https://customerrest.herokuapp.com/api/customers")
-    .then(res => res.json())
-    .then(res => setCustomers(res.content))
+  const fetchCustomers = async () => {
+    try{
+      const response = await axios.get("https://customerrest.herokuapp.com/api/customers")
+      const customers = response.data.content
+      setCustomers(customers)
+    } catch(exception) {
+      console.error(exception)
+      setMessage(`Couldn't fetch customer data`)
+      setOpen(true)
+    }
   }
   //fetching the trainingsData, and changing the date format using moment.js
-  function fetchTrainings(){
-    fetch("https://customerrest.herokuapp.com/api/trainings")
-    .then(res => res.json())
-    .then(res => {
-      let content = res.content.map(t => {
+  const fetchTrainings = async () => {
+    try{
+      const response = await axios.get("https://customerrest.herokuapp.com/api/trainings")
+      const trainings = response.data.content
+      
+      const formattedDatesTrainings = trainings.map(t => {
         var date = moment(t.date)
         return {...t, date: date.format("LLLL")} 
       })
-      return setTrainings(content)
- 
-    })
+      setTrainings(formattedDatesTrainings)
+    } catch(exception) {
+      console.error(exception)
+      setMessage(`Couldn't fetch training data`)
+      setOpen(true)
+    }
     
   }
   //After the first render
@@ -59,7 +69,23 @@ function App() {
   }
     , [])
   //delete customer
-  function deleteCustomer(name, link){
+  const deleteCustomer = async (name, link) => {
+    if(window.confirm("are you sure?")){
+      try{
+        await axios.delete(link)
+        fetchCustomers()
+        setMessage(`Customer ${name} deleted`)
+        setOpen(true)
+      } catch (exception) {
+        console.error(exception)
+        setMessage(`Couldn't delete customer ${name}`)
+        setOpen(true)
+      }
+      
+    }
+  }
+
+  /*function deleteCustomer(name, link){
     console.log("we here", name)
     if(window.confirm("are you sure?")){
       fetch(link, {method: "DELETE"})
@@ -67,7 +93,7 @@ function App() {
       .then(res => setMessage(`Customer ${name} deleted`))
       .then(res => setOpen(true))
     }
-  } 
+  } */
 
   //edit customer
   function editCustomer(editedCustomer, link){
@@ -98,30 +124,37 @@ function App() {
   //delete training
   const deleteTraining = async (link, boolean) => {
     if(window.confirm("are you sure?")){
-      await axios.delete(link)
+      try{
+        await axios.delete(link)
       
-      if(boolean){
-        setMessage("Training deleted")
+        if(boolean){
+          setMessage("Training deleted")
+          setOpen(true)
+        }
+      }catch(exception){
+        console.error(exception)
+        setMessage("Couldn't delete the training")
         setOpen(true)
       }
+      
     }
   }
   
   //add training
-  function addTraining(customerName, training){
-    console.log("harkka", training)
+  const addTraining = async (customerName, training) => {
+    try{
+      await axios.post("https://customerrest.herokuapp.com/api/trainings", training)
+      await fetchTrainings()
+      setMessage(`Added training for customer ${customerName}`)
+      setOpen(true)
+    } catch (exception){
+      console.error(exception)
+      setMessage(`Couldn't add training for customer ${customerName}`)
+      setOpen(true)
+    }
     
-    const urlForTrainings = "https://customerrest.herokuapp.com/api/trainings"
-    fetch(urlForTrainings, {method:"POST", headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(training)})
-    .then(res => fetchTrainings())
-    .then(res => setMessage(`Added training for customer ${customerName}`))
-    .then(res => setOpen(true))
   }
-
-
+  
   function customerRender(){
     return (
       <Customers getTrainings={fetchTrainings} customers={customers} addCustomer={addCustomer} 
@@ -172,11 +205,8 @@ function App() {
             <Route exact path="/trainings" render={trainingsRender}></Route>
             <Route exact path="/calendar" render={calendarRender}></Route>
           </Switch>
-     
-      
-      
       </BrowserRouter>
-      <Snackbar open = {open} autoHideDuration={1500} onClose= {handleClose} message={message}/>
+      <Snackbar open = {open} autoHideDuration={3000} onClose= {handleClose} message={message}/>
       </Paper>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,6 +34,12 @@ const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     const [open, setOpen] = useState(false)
     const [cTrainingData, setTrainingData] = useState([])
     const [booleanForFetch, setBoolean] = useState(false)
+
+    /*useEffect(() => {
+      return () => {
+        getTrainings()
+      }
+    }, [])*/
 
     //fetch customer data
     const fetchCustomerTrainings = async () => {

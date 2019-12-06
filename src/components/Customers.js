@@ -22,7 +22,7 @@ const Customers = ({getTrainings, setOpenSnack, customers, deleteCustomer, editC
   city:"", email:"", phone:""})
 
   const baseUrlForCustomers = "https://customerrest.herokuapp.com/api/customers"
-  console.log('customers' , customerState)
+  
   const columns = [{
     Header: 'First name',
     accessor: 'firstname' // String-based value accessors!
