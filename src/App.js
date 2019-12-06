@@ -128,7 +128,7 @@ function App() {
   }  
   function trainingsRender(){
     return (
-      <Trainings trainings = {trainings} deleteTraining ={deleteTraining}></Trainings>
+      <Trainings deleteTraining = {deleteTraining}></Trainings>
     )
   }
 
@@ -156,9 +156,9 @@ function App() {
       
         <div>
           
-          <Link class="links" to="/customers" >Customers</Link>
-          <Link class="links" to="/trainings">Trainings</Link>
-          <Link class="links" to="/calendar">Calendar</Link>
+          <Link className="links" to="/customers" >Customers</Link>
+          <Link className="links" to="/trainings">Trainings</Link>
+          <Link className="links" to="/calendar">Calendar</Link>
         </div>
           
       </AppBar>

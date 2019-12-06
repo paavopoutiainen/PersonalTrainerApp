@@ -28,6 +28,7 @@ const CalendarPage = ({trainings}) => {
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
+                defaultView='week'
             />
            
  

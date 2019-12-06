@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import ReactTable from 'react-table'
 import moment from 'moment'
+import axios from "axios"
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,32 +35,24 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
     const [cTrainingData, setTrainingData] = useState([])
     const [booleanForFetch, setBoolean] = useState(false)
 
-    //fetchData Of the customer
-    function fetchCustomerTrainings(){
-        return fetch(customersTrainingsUrl)
-        .then(res =>{
-          console.log("url", customersTrainingsUrl)
-          return res.json()
-        })
-        .then(res => {
-          let content = res.content.map(t => {
-            var date = moment(t.date)
-            return {...t, date: date.format("LLLL")} 
-          })
-          return content
-        }).then(trainings => {
-          setTrainingData(trainings)
-        })
+    //fetch customer data
+    const fetchCustomerTrainings = async () => {
+      const response = await axios.get(customersTrainingsUrl)
+      const data = response.data
+      console.log(data)
+      const filtered = data.content.filter(t => t.date !== undefined)
+      const content = filtered.map(t => {
+        var date =  moment(t.date)
+        return {...t, date: date.format("LLLL") } 
+    })
+    setTrainingData(content)
     }
 
     if(booleanForFetch){
       fetchCustomerTrainings()
       setBoolean(false)
     }
-    //After render
-    /*useEffect(()=>{
-        fetchCustomerTrainings()
-    }, [] )*/
+    
 
     const columns = [{
         Header: 'Date',
