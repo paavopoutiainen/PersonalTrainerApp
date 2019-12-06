@@ -13,6 +13,7 @@ import moment from 'moment'
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
+import axios from 'axios';
 
 
 const useStyles = makeStyles(theme => ({
@@ -95,15 +96,17 @@ function App() {
   }
 
   //delete training
-  function deleteTraining(link){
+  const deleteTraining = async (link, boolean) => {
     if(window.confirm("are you sure?")){
-      fetch(link, {method: "DELETE"})
-      .then(fetchTrainings)
-      .then(setMessage("Training deleted"))
-      .then(setOpen(true))
+      await axios.delete(link)
+      
+      if(boolean){
+        setMessage("Training deleted")
+        setOpen(true)
+      }
     }
   }
-
+  
   //add training
   function addTraining(customerName, training){
     console.log("harkka", training)
@@ -121,14 +124,14 @@ function App() {
 
   function customerRender(){
     return (
-      <Customers customers={customers} addCustomer={addCustomer} 
+      <Customers getTrainings={fetchTrainings} customers={customers} addCustomer={addCustomer} 
       deleteCustomer={deleteCustomer} editCustomer ={editCustomer} 
       addTraining={addTraining} deleteTraining={deleteTraining} setOpenSnack={setOpen}></Customers>
     )
   }  
   function trainingsRender(){
     return (
-      <Trainings deleteTraining = {deleteTraining}></Trainings>
+      <Trainings getTrainings={fetchTrainings} deleteTraining = {deleteTraining}></Trainings>
     )
   }
 
@@ -145,7 +148,7 @@ function App() {
     <div>
       <Paper className="paper">
       <BrowserRouter>
-      <AppBar class="appBar" position="static">
+      <AppBar className="appBar" position="static">
       
       
         <Toolbar>
@@ -173,7 +176,7 @@ function App() {
       
       
       </BrowserRouter>
-      <Snackbar open = {open} autoHideDuration={3000} onClose= {handleClose} message={message}/>
+      <Snackbar open = {open} autoHideDuration={1500} onClose= {handleClose} message={message}/>
       </Paper>
     </div>
   );

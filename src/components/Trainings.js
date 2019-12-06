@@ -7,15 +7,15 @@ import moment from "moment"
 
 
 
-const Trainings = ({deleteTraining}) => {
+const Trainings = ({getTrainings, deleteTraining}) => {
  
   //const [trainingsState, setTraining] = useState({customer: "", date: "", duration:"", activity:""})
   const [trainings, setTrainings] = useState([])
 
   //trainings = trainings.map(x => console.log('x', x))
-  const fetchTrainings = async () => {
+  const fetchTrainingsWithCustomerData = async () => {
     const response = await axios.get("https://customerrest.herokuapp.com/gettrainings")
-  
+    console.log("response", response.data)
     const trainingsArray = response.data.map(t => {
       const date = moment(t.date)
       const customer = t.customer !== null ? `${t.customer.firstname} ${t.customer.lastname}`: null
@@ -23,14 +23,22 @@ const Trainings = ({deleteTraining}) => {
     })
     setTrainings(trainingsArray)
   }
-
+//here we fetch the trainings with customers ans set them to the state of this component
   useEffect(() => {
-    fetchTrainings()
+    fetchTrainingsWithCustomerData()
+  }, [])
+ //this hook is called when the component is removed from the ui
+ //here we update the state in App.js since the calendar component is receiving that state as a prop when it is mounted
+  useEffect(() => {
+    return () => {
+     getTrainings()
+    }
   }, [])
 
-  const handleDeleteClick = (link) => {
-    deleteTraining(link)
-    fetchTrainings()
+  const handleDeleteClick = async (link) => {
+    await deleteTraining(link, true)
+    console.log("here?")
+    fetchTrainingsWithCustomerData()
   }
   
 

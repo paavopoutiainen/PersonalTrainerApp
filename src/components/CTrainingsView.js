@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   });
   
 
-const CTrainingsView = ({cRow, deleteTraining}) => {
+const CTrainingsView = ({getTrainings, cRow, deleteTraining}) => {
     const customersTrainingsUrl = cRow
     const classes = useStyles()
     const [open, setOpen] = useState(false)
@@ -71,18 +71,22 @@ const CTrainingsView = ({cRow, deleteTraining}) => {
         sortable: false,
         width: 75,
         Cell: row => <Button color="secondary" size ="small" 
-        onClick={() => deleteTraining(row.original.links[1].href)}>Delete</Button>
+        onClick={() => handleDeleteClick(row.original.links[1].href)}>Delete</Button>
     }
     ]
-
-    
+    const handleDeleteClick = async (link) => {
+      await deleteTraining(link, false)
+      
+      fetchCustomerTrainings()
+    }
     const handleClickOpen = () => {
         setOpen(true);
         setBoolean(true)
         console.log("linkki", customersTrainingsUrl)
       };
     
-      const handleClose = () => {
+      const handleClose = async () => {
+        await getTrainings()
         setOpen(false);
       };
 
